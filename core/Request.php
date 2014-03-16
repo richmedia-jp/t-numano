@@ -42,7 +42,7 @@ class Request{
 
 	//追記3/13
 	public function getBaseUrl(){
-		$script_name = $SERVER['SCRIPT_NAME'];
+		$script_name = $_SERVER['SCRIPT_NAME'];
 		$request_uri = $this->getRequestUri();
 
 		if(0 === strpos($request_uri,dirname($script_name))){
@@ -67,7 +67,12 @@ class Request{
 		return $path_info;
 	}
 }
-
+/*
+//出力の確認
+$output = new Request();
+echo $output->getRequestUri();
+echo $output->getHost();
+*/
 /*
 サーバーに対するリクエストを処理する
 ・$_SERVER['REQUEST_METHOD']でPOSTかどうか判断
