@@ -1,9 +1,9 @@
 <?php
 /*
-DBManagerクラス
+DbManagerクラス
 */
 
-class DBManager{
+class DbManager{
 	protected $connections = array();
 
 	public function connect($name,$params){
@@ -34,6 +34,14 @@ class DBManager{
 }
 /*出力テスト
 $test_array = array();
-$dbmanager = new DBManager();
+$dbmanager = new DbManager();
 echo $dbmanager->connect('name',$test_array);
 */
+$db_manager = new DbManager();
+$db_manager->connect('master',array(
+	'dsn' =>'mysql:dbname=naiteikadai;host=localhost',
+	'user'=>'numa',
+	'password'=>'naiteikadaidatabase',
+));
+$db_manager->getConnection('master');
+ var_dump($db_manager->getConnection());
