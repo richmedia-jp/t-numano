@@ -79,4 +79,74 @@ abstract class Application{
 	public function getWebDir(){
 		return $this->getRootDir().'/web';
 	}
+
+
+
+	public function run(){
+		try{
+			$params = $this->router->resolve($this->request->getPathInfo());
+			if($params === false){
+				//todo-A
+				throw new HttpNotFoundException('No route found for'.$this->request->getPathInfo);
+			}
+
+			$controler = $params['controller'];
+			$action = $params['action'];
+
+			$this->runAction($controller,$action,$params);
+		}catch(HttpNotFoundException $e){
+			$this->render404Page($e);
+		}
+
+			$this->response->send();
+	}
+
+	protected function render404Page($e){
+		$this->response->setStatusCode(404,'Notfound');
+		$message = $this->isDebugMode() ? $e->getMessage() : 'Page not found';
+		$message = htmlspecialchars($message,ENT_QUOTES,'UTF-8');
+
+		$this->response->setContent(<<<EOF
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+					<title>404</title>
+				</head>
+				<body>
+				{$message}
+				</body>
+			</html>
+EOF
+			);
+	}
+
+	public function runAction($controller_name,$action,$params = array()){
+		$controler_class = ucfirst($controller_name).'Controller';
+
+		$controller = $this->findController($controller_class);
+		if($controller === false){
+			//todo-B
+			throw new HttpNotFoundException($controller_class.'contoller is not found');
+		}
+
+		$content = $controller->run($action,$params);
+
+		$this->response->setContent($content);
+	}
+
+	protected function findController($controller_class){
+		if(!class_exists($controller_class)){
+			$controller_file = $this->getControllerDir().'/'.$controller_class.'.php';
+			if(!is_readable($controller_file)){
+				return false;
+			}else{
+				require_once $controller_file;
+				if(!class_exists($controller_class)){
+					return false;
+				}
+			}
+		}
+		return new $controller_class($this);
+	}
 }
