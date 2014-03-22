@@ -20,7 +20,7 @@ abstract class Controller{
 		$this->application 	= $application;
 		$this->request 		= $application->getRequest();
 		$this->response 	= $application->getResponse();
-		$this->session		= $application->getSesstion();
+		$this->session		= $application->getSession();
 		$this->db_manager	= $application->getDbManager();
 	}
 
@@ -35,7 +35,7 @@ abstract class Controller{
 			throw new UnauthorizedActionException();
 		}
 
-		$content = $this->action_method($params);
+		$content = $this->$action_method($params);
 		return $content;
 	}
 
@@ -81,7 +81,7 @@ abstract class Controller{
 		}
 		$token = sha1($form_name.session_id().microtime());
 		$tokens[] = $token;
-		$this->session->set($key.$tokens);
+		$this->session->set($key,$tokens);
 		return $token;
 	}
 
@@ -91,7 +91,7 @@ abstract class Controller{
 
 		if(false !== ($pos = array_search($token,$tokens,true))){
 			unset($tokens[$pos]);
-			$this->sessions->set($key,$tokens);
+			$this->session->set($key,$tokens);
 	
 			return true;
 		}

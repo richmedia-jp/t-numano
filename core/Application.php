@@ -70,7 +70,7 @@ abstract class Application{
 	}
 
 	public function getViewDir(){
-		return $this->getRiitDir().'/views';
+		return $this->getRootDir().'/views';
 	}
 
 	public function getModelDir(){
@@ -88,10 +88,10 @@ abstract class Application{
 			$params = $this->router->resolve($this->request->getPathInfo());
 			if($params === false){
 				//todo-A
-				throw new HttpNotFoundException('No route found for'.$this->request->getPathInfo);
+				throw new HttpNotFoundException('No route found for'.$this->request->getPathInfo());
 			}
 
-			$controler = $params['controller'];
+			$controller = $params['controller'];
 			$action = $params['action'];
 
 			$this->runAction($controller,$action,$params);
@@ -127,7 +127,7 @@ EOF
 	}
 
 	public function runAction($controller_name,$action,$params = array()){
-		$controler_class = ucfirst($controller_name).'Controller';
+		$controller_class = ucfirst($controller_name).'Controller';
 
 		$controller = $this->findController($controller_class);
 		if($controller === false){
