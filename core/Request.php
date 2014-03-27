@@ -15,7 +15,7 @@ class Request{
 		return $default;
 	}
 
-	public function getPost($name,$default = nul){
+	public function getPost($name,$default = null){
 		if(isset($_POST[$name])){
 			return $_POST[$name];
 		}
