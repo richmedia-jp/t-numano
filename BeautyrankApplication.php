@@ -7,7 +7,9 @@ class BeautyrankApplication extends Application{
 
 	protected function registerRoutes(){
 		return array(
-			'/'			=> array('controller'=>'top','action'=>'index'),
+			'/'					=> array('controller'=>'top','action'=>'index'),
+			'/admin'			=> array('controller'=>'admin','action'=>'index'),
+			'/admin/:action'	=> array('controller'=>'admin'),
 
 			);
 	}
