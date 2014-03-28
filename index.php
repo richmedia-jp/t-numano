@@ -1,3 +1,7 @@
 <?php
 
-echo 'hello world';
+require 'bootstrap.php';
+require 'BeautyrankApplication.php';
+
+$app = new BeautyrankApplication(true);
+$app->run();
