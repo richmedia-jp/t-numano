@@ -1,0 +1,41 @@
+/*
+style sheet
+
+ID = UpperCammel
+class = lowerCammel
+
+*/
+
+/*all 全てに適応される設定*/
+body {
+	margin:0;
+	padding:0;
+	background-color: #fffdf4;
+	color: #84725e;
+}
+a {
+	color: #926a48;
+	text-decoration: none;
+}
+
+header{
+	padding-left: 20px;
+	background-color: #d0f5a9;
+}
+
+/*Main（全体）*/
+#Main{
+	margin: 0 auto;
+	width: 90%;
+}
+
+/*nav（ナビゲーション）*/
+nav ul li{
+	padding: 10px;
+	display: inline-block;
+	list-style: none;
+}
+
+
+footer{
+}

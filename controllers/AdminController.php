@@ -117,7 +117,7 @@ class AdminController extends Controller{
 				$this->session->setAuthenticated(true);
 				$this->session->set('user',$user);
 
-				return $this->redirect('/');
+				return $this->redirect('/admin');
 			}
 		}
 
@@ -129,6 +129,47 @@ class AdminController extends Controller{
 			),'login');
 	}
 
+
+	//都道府県登録用のアクション(練習用)
+	public function prefregisterAction(){
+		if(!$this->request->isPost()){
+			$this->forword404();
+		}
+
+		$token = $this->request->getPost('_token');
+		if(!$this->checkCsrfToken('admin/prefregister',$token)){
+		echo 'error';
+			//return $this->redirect('/');
+		}
+
+		$prefecture = $this->request->getPost('prefecture');
+
+		$errors = array();
+
+		if(!strlen($prefecture)){
+			$errors[] = '県の名前を入力してください';
+		}else if (mb_strlen($prefecture) > 200){
+			$errors[] = '200文字以内で入力してください';
+		}
+
+		if(count($errors) === 0){
+			$user = $this->session->get('user');
+		//	$this->db_manager->get('Prefectures')->insert($user['id'],$prefecture);
+	var_dump($this->db_manager->get('Prefectures')->testrecord($user['id'],$prefecture));
+
+//			return $this->redirect('/');
+		}
+
+		$user = $this->session->get('user');
+		$statuses = $this->db_manager->get('Prefectures')->fetchAllPersonalArchivesByUserId($user['id']);
+
+		return $this->render(array(
+			'errors'	=> $errors,
+			'prefecture'=> $prefecture,
+			'statuses'	=> $statuses,
+			'_token'	=> $this->generateCsrfToken('admin/prefregister'),
+			),'index');
+	}
 }
 
 /*

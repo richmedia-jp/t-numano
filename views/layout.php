@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<title><?php if(isset($title)):echo $this->escape($title).' - '; endif; ?> beauty ranking</title>
+		<link rel="stylesheet" type="text/css" href="<?php echo str_replace('/index.php', '/web', $base_url );?>/css/style.css">
 	</head>
 	<body>
 		<header>
