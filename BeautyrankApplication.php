@@ -5,6 +5,7 @@ class BeautyrankApplication extends Application{
 		return dirname(__FILE__);
 	}
 
+
 	protected function registerRoutes(){
 		return array(
 			'/'					=> array('controller'=>'top','action'=>'index'),
